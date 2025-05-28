@@ -8,18 +8,23 @@ export default function useGameTimer() {
   const winner = useSelector((state: RootState) => state.game.winner);
 
   useEffect(() => {
-    let interval: number | null = null;
+    let interval: number | undefined = undefined;
 
     if (!winner) {
-        interval = window.setInterval(() => {
+      interval = setInterval(() => {
         dispatch(incrementTime());
       }, 1000);
     }
 
+    if (winner) {
+      clearInterval(interval);
+      return
+    };
+
     return () => {
       if (interval) {
-        window.clearInterval(interval);
+        clearInterval(interval);
       }
     };
-  }, [winner, dispatch]);
+  }, [winner]);
 }

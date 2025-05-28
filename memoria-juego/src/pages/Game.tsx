@@ -41,7 +41,7 @@ const Game: React.FC = () => {
     };
 
     loadCharacters();
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (winner) {
@@ -50,9 +50,8 @@ const Game: React.FC = () => {
       dispatch({ type: "game/setUser", payload: updatedUser });
       localStorage.setItem(`user_${updatedUser.id}`, JSON.stringify(updatedUser));
     }
-  }, [winner, time, user, dispatch]);
+  }, [winner]);
 
-  
   useEffect(() => {
     if (firstCard && secondCard) {
       if (firstCard.character?.id === secondCard.character?.id) {
@@ -60,22 +59,23 @@ const Game: React.FC = () => {
       } else {
         setTimeout(() => {
           dispatch(resetCards());
-        }, 1000); 
+        }, 1000);
       }
     }
-  }, [firstCard, secondCard, dispatch]);
+  }, [firstCard, secondCard]);
 
   const handleRestart = () => {
     dispatch({ type: "game/resetGame" });
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center", border: "1px solid red" }}>
       <h1>Juego de Memoria</h1>
       <p>
         Tiempo: {Math.floor(time / 60)}:{time % 60}s
       </p>
       <CardGrid cards={cards} />
+
       {winner && <GameOverModal onRestart={handleRestart} />}
     </div>
   );

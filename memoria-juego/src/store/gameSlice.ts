@@ -82,6 +82,8 @@ const gameSlice = createSlice({
 
       if (state.matches === state.totalMatches) {
         state.winner = true;
+        state.firstCard = null;
+        state.secondCard = null;
       }
     },
     resetCards(state) {
